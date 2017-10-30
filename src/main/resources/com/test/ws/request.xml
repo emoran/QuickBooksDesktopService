@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<?qbxml version="2.0"?>
+<QBXML>
+   <QBXMLMsgsRq onError="stopOnError">
+    <InvoiceQueryRq requestID="2">
+      <RefNumber>1234</RefNumber> <!-- put your invoice # here -->
+    </InvoiceQueryRq>
+  </QBXMLMsgsRq>
+</QBXML>

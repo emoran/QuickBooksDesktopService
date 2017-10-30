@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<QBWCXML>
+    <AppDescription>Test webservice</AppDescription>
+    <AppID></AppID>
+    <AppName>QBWebConnectorSvc</AppName>
+    <AppURL>http://localhost:8080/services/QBWebConnectorSvc</AppURL>
+    <AppSupport>http://localhost:8080/support</AppSupport>
+    <UserName>user</UserName>
+    <OwnerID>{33A44FB5-33D9-4815-AC85-BC87A7E7D1EB}</OwnerID>
+    <FileID>{44A44FB5-33D9-4815-AC85-BC87A7E7D1EB}</FileID>
+    <QBType>QBFS</QBType>
+</QBWCXML>
