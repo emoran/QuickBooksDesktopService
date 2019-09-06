@@ -5,9 +5,9 @@
     <service name="QBWebConnectorSvc">
         <messageReceivers>
             <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out"
-                             class="com.test.ws.QBWebConnectorSvcMessageReceiverInOut"/>
+                             class="com.emoran.testWS.QBWebConnectorSvcMessageReceiverInOut"/>
         </messageReceivers>
-        <parameter name="ServiceClass">com.test.ws.QBWebConnectorSvcSkeleton</parameter>
+        <parameter name="ServiceClass">com.emoran.testWS.QBWebConnectorSvcSkeleton</parameter>
         <parameter name="useOriginalwsdl">false</parameter>
         <parameter name="modifyUserWSDLPortAddress">true</parameter>
         <operation name="sendRequestXML" mep="http://www.w3.org/ns/wsdl/in-out"
