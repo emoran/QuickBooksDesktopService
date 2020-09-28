@@ -49,44 +49,8 @@ public class QBWebConnectorSvcSkeleton {
      */
     public SendRequestXMLResponse sendRequestXML(SendRequestXML sendRequestXML) {
     	SendRequestXMLResponse sendRequestXMLResponse = new SendRequestXMLResponse();
-        if (!stop) {        	
-        	
-        	//Checking for Invoices paid in Full to update Status in ST
-        	String queryInvoicesPayload = STQuickbooksActions.queryAllInvoices();
-        	sendRequestXMLResponse.setSendRequestXMLResult(queryInvoicesPayload);
-        	
-        	
-        	SalesforceController controller = new SalesforceController();
-        	SalesforceController.salesforceLogin();
-        	List<String> invoicesToCreate = controller.getApprovedSisteTrakerInvoiceItems();        	
-           
-        	
-        	
-        	if( invoicesToCreate.size() > 0){
-        		log.info(":::::Sending "+ invoicesToCreate.size() +" Invoice (s) :::::");
-            	for(String xmlSinglePyload: invoicesToCreate){
-            		log.info("#### Creating invoices: "+xmlSinglePyload);
-            		sendRequestXMLResponse.setSendRequestXMLResult(xmlSinglePyload);
-            	}
-        	}
-        	
-        	/*if(requestQueue.size() > 0){
-        		System.out.println("### Elements in queue list");
-        		Integer index = 0;
-        		for(String queuePayload:requestQueue){
-        			System.out.println("##### queuePayload"+queuePayload);
-        			sendRequestXMLResponse.setSendRequestXMLResult(queuePayload);
-        			requestQueue.remove(index);
-        			index++;
-        		}
-        	}*/
-        	
-            stop = true;         
-        } 
-        else {
-        	sendRequestXMLResponse.setSendRequestXMLResult("");
-        }
-        return sendRequestXMLResponse;
+        System.out.println("Inside QB Web service");
+    	return sendRequestXMLResponse;
     }
 
 
@@ -174,38 +138,14 @@ public class QBWebConnectorSvcSkeleton {
      */
 
     public AuthenticateResponse authenticate(Authenticate authenticate) {
-        //log.info("Authenticate:" + authenticate.toString());
-
-        // prepare response
-        AuthenticateResponse authenticateResponse = new AuthenticateResponse();
-        ArrayOfString arrayOfString = new ArrayOfString();
-
-        if ("username".equals(authenticate.getStrUserName()) && "passqword".equals(authenticate.getStrPassword())) {
-            // do authenticate
-
-            //The first member of the array is a session token, which could be a GUID or anything else that you want
-            // to use to identify the session. This token will be returned by QBWC in subsequent callbacks in the
-            // session
-            authenticatedUserID = UUID.randomUUID().toString();
-            arrayOfString.addString(authenticatedUserID);
-            stop = false;
-            // If you do have work to do for the that user, you can supply the full pathname of the company to be
-            // used in the current update
-            // e.g: arrayOfString.addString("c:\\Users\\Public\\Documents\\Test Company.qbw");
-
-            // empty for use opened company in Quickbooks.
-            arrayOfString.addString("");
-
-        } else {
-            // If the username and password in the authenticate call is invalid, you would supply the value “nvu”.
-            arrayOfString.addString("");
-            arrayOfString.addString("nvu");
-            stop = true;
-        }
-
-
-        authenticateResponse.setAuthenticateResult(arrayOfString);
-        return authenticateResponse;
+      AuthenticateResponse authenticateResponse = new AuthenticateResponse();
+      ArrayOfString arrayOfString = new ArrayOfString();
+      authenticatedUserID = UUID.randomUUID().toString();
+      arrayOfString.addString(authenticatedUserID);
+      stop = false;
+      arrayOfString.addString("");
+      authenticateResponse.setAuthenticateResult(arrayOfString);
+      return authenticateResponse;
     }
 
 
@@ -221,7 +161,7 @@ public class QBWebConnectorSvcSkeleton {
     	try{
     		System.out.println("RAW RESPONSE:"+receiveResponseXML.getResponse());
         	
-    		
+    		/*
     			JAXBContext jaxbContext = JAXBContext.newInstance(QBXML.class);
             	Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();    	
         		
@@ -250,7 +190,7 @@ public class QBWebConnectorSvcSkeleton {
         			System.out.println(":::::::: InternalId: "+mainDocument.QBXMLMsgsRs.InvoiceAddRs.InvoiceRet.TxnID+" Invoice created with reference Number: "+mainDocument.QBXMLMsgsRs.InvoiceAddRs.InvoiceRet.RefNumber+" SalesforceId to Update: "+mainDocument.QBXMLMsgsRs.DataExtAddRs.DataExtRet.DataExtValue);
         	    	SalesforceController.updateLineItems(mainDocument.QBXMLMsgsRs.InvoiceAddRs.InvoiceRet.TxnID,mainDocument.QBXMLMsgsRs.DataExtAddRs.DataExtRet.DataExtValue);
         		}
-    		
+    		*/
     		
     	}
     	catch(Exception er){
@@ -261,7 +201,7 @@ public class QBWebConnectorSvcSkeleton {
     		er.printStackTrace(pw);
     		String sStackTrace = sw.toString(); // stack trace as a string
     		
-    		emails.sendNotificationEmail("ERROR updating record: " + sStackTrace,com.emoran.Utils.getTodaysDate("yyyy-MM-dd")+"- ST_QBD Exception reading XML Response");
+    		//emails.sendNotificationEmail("ERROR updating record: " + sStackTrace,com.emoran.Utils.getTodaysDate("yyyy-MM-dd")+"- ST_QBD Exception reading XML Response");
     	}
     	
         
@@ -269,4 +209,3 @@ public class QBWebConnectorSvcSkeleton {
     }
 
 }
-    
